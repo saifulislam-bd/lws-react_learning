@@ -1,20 +1,41 @@
 import { useState } from "react";
-import { initialTravelPlan } from "../../../data/places";
+import { initialTravelPlan } from "../data/places-normalized";
 import PlaceTree from "./PlaceTree";
 
-function TravelPlan() {
+export default function TravelPlan() {
   const [plan, setPlan] = useState(initialTravelPlan);
-  const planets = plan.childPlaces;
+
+  const root = plan[0];
+  const planetIds = root.childIds;
+
+  const handleComplete = (parentId, childId) => {
+    const parent = plan[parentId];
+
+    const nextParent = {
+      ...parent,
+      childIds: parent.childIds.filter((id) => id !== childId),
+    };
+
+    setPlan({
+      ...plan,
+      [parentId]: nextParent,
+    });
+  };
+
   return (
-    <div>
-      <h2>Places to visit 😍</h2>
+    <>
+      <h2>Places to visit</h2>
       <ol>
-        {planets.map((place) => (
-          <PlaceTree place={place} key={place.id} />
+        {planetIds.map((placeId) => (
+          <PlaceTree
+            key={placeId}
+            id={placeId}
+            placesById={plan}
+            onComplete={handleComplete}
+            parentId={0}
+          />
         ))}
       </ol>
-    </div>
+    </>
   );
 }
-
-export default TravelPlan;
