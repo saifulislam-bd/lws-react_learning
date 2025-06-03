@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 function useData(url) {
   const [data, setData] = useState(null);
   useEffect(() => {
