@@ -1,4 +1,4 @@
-export default function Toast2() {
+export default function Toast() {
   return (
     <section className="bg-gray-2 py-[60px] dark:bg-dark">
       <div className="mx-auto px-4 sm:container">
